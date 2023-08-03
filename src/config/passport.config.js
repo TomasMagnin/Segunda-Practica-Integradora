@@ -11,7 +11,7 @@ const LocalStrategy = local.Strategy;
 export function iniPassport() {
   passport.use(
     'login',
-    new LocalStrategy({ usernameField: 'email' }, async (username, password, done, req) => {
+    new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
         const user = await UserModel.findOne({ email: username });
         if (!user) {
@@ -58,6 +58,11 @@ export function iniPassport() {
                     cartID,
                     role: "user",
                 };
+                if(username === 'adminCoder@coder.com' && password === 'adminCod3r123'){
+
+                  newUser.role= "admin"
+             
+                 };
 
                 let userCreated = await UserModel.create(newUser);
                 console.log(userCreated);

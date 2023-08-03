@@ -36,9 +36,9 @@ authRouter.post('/register', passport.authenticate('register', { failureRedirect
     if (!req.user) {
         return res.json({ error: 'something went wrong' });
     }
-    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, age: req.user.age, isAdmin: req.user.isAdmin };
+    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, age: req.user.age, role: req.user.role };
 
-    return res.json({ msg: 'ok', payload: req.user });
+    return res.redirect('/login');
 });
 
 authRouter.get('/failregister', async (req, res) => {
@@ -70,7 +70,7 @@ authRouter.get('/products', async (req, res) => {
 });
 
 authRouter.get('/profile', isUser, (req, res) => {
-    const user = {email: req.session.email, isAdmin: req.session.isAdmin};
+    const user = {email: req.session.email, role: req.user.role};
     return res.render('profile', {user: user});
 });
 
